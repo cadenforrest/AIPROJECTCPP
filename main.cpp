@@ -1,7 +1,7 @@
 #include <iostream>
 #include <list>
 #include <string>
-#include "Variable.h"
+// #include "Variable.h"
 using namespace std;
 
 /*
@@ -46,6 +46,38 @@ Knowledge Base
 
 */
 
+class Variable{
+
+  public:
+    // Variable(); 
+    // ~Variable(); 
+
+    void setQuestion(std::string questionsstring){
+      this->question = questionsstring; 
+    }
+
+    std::string getQuestion(){ 
+      return this->question; 
+    }
+
+    bool getInstantiated(){
+      return this->isInstantiated; 
+    }
+
+    void Instantiate(bool userAnswer){
+      this->isInstantiated = true; 
+      this->answer = userAnswer; 
+    }
+
+  private: 
+    std::string variablename; 
+    bool isInstantiated = false; 
+    bool answer = false; 
+    std::string question;
+};
+
+
+int main(){
   std::list<Variable> VariableList; 
 
   Variable Gender; 
@@ -104,10 +136,11 @@ Knowledge Base
   breastLump.setQuestion("Does the patient have a breast lump?"); 
   VariableList.push_back(breastLump); 
 
-  // std::list<Variable>::iterator it; 
-  // for (it = VariableList.begin(); it!= VariableList.end(); ++it) {
-  //   std::cout << it->getQuestion();
-  // }
+  std::list<Variable>::iterator it; 
+  for (it = VariableList.begin(); it!= VariableList.end(); ++it) {
+    std::cout << it->getQuestion();
+    std::cout << std::endl; 
+  }
 
   return 0;
 }
