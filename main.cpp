@@ -1,7 +1,8 @@
 #include <iostream>
-#include <list>
+#include <vector>
 #include <string>
-// #include "Variable.h"
+#include "Variable.h"
+#include "Conclusion.h"
 using namespace std;
 
 /*
@@ -46,39 +47,12 @@ Knowledge Base
 
 */
 
-class Variable{
 
-  public:
-    // Variable(); 
-    // ~Variable(); 
-
-    void setQuestion(std::string questionsstring){
-      this->question = questionsstring; 
-    }
-
-    std::string getQuestion(){ 
-      return this->question; 
-    }
-
-    bool getInstantiated(){
-      return this->isInstantiated; 
-    }
-
-    void Instantiate(bool userAnswer){
-      this->isInstantiated = true; 
-      this->answer = userAnswer; 
-    }
-
-  private: 
-    std::string variablename; 
-    bool isInstantiated = false; 
-    bool answer = false; 
-    std::string question;
-};
 
 
 int main(){
-  std::list<Variable> VariableList; 
+  //make variable list
+  std::vector<Variable> VariableList; 
 
   Variable Gender; 
   Gender.setQuestion("Is the patient female?"); 
@@ -136,13 +110,70 @@ int main(){
   breastLump.setQuestion("Does the patient have a breast lump?"); 
   VariableList.push_back(breastLump); 
 
-  std::list<Variable>::iterator it; 
+  //print variablelist
+  std::vector<Variable>::iterator it; 
   for (it = VariableList.begin(); it!= VariableList.end(); ++it) {
     std::cout << it->getQuestion();
     std::cout << std::endl; 
   }
 
+  
+  std::vector<Conclusion> ConclusionList;
+  Conclusion breastCancer; 
+  breastCancer.setRuleNum(10);
+  breastCancer.setConclusion("Patient has breast cancer");
+  breastCancer.setRuleList({1, 2});
+  ConclusionList.push_back(breastCancer); 
+
+  
+
+
+  
+  // Conclusion endoCancer;
+  // endoCancer.setRuleNum(???);
+  // endoCancer.setConclusion(?????);
+  // ConclusionList.push_back(endoCancer);
+
+  // Conclusion lungCancer;
+  // lungCancer.setRuleNum(??);
+  // lungCancer.setConclusion(????);
+  // ConclusionList.push_back(lungCancer);
+
+  // Conclusion heartCancer;
+  // heartCancer.setRuleNum(??);
+  // heartCancer.setConclusion(??);
+  // ConclusionList.push_back(heartCancer);
+  
+
   return 0;
 }
 
+/*SEARCH FUNCTION PSUEDOCODE:
 
+  Variable search(std::list<Variable> VariableList, string key){
+    for i in list: 
+      searchVariable = VariableList.pop();
+      if(searchVariable.getName() = key){
+        return searchVariable
+      }
+  }
+
+  search = search(VariableList, "urineBlood");
+  search.getInstantiated(); 
+
+
+
+
+*/
+
+//bool1 = (VARIABLE1 && VARIABLE2 && VARIABLE3);
+
+//CONCLUSION10.SETRULE(LIST->GENDER.GETANSWER() == TRUE && LIST->BREASTPAIN.GETANSWER() == TRUE);
+
+    //SETRULE(bool crule){
+      // this->rule = crule;
+    //}
+
+//IF RULE1 == TRUE {
+//  PRINT 
+//}

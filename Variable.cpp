@@ -19,3 +19,7 @@ void Variable::Instantiate(bool userAnswer){
   this->answer = userAnswer; 
 }
 
+void Variable::setVariableName(std::string namestring){
+  this->variablename = namestring; 
+
+}
