@@ -46,36 +46,6 @@ Knowledge Base
 
 */
 
-const int VARSIZE = 15;
-
-int main(){
-
-  struct VARLIST{
-    string variableName;
-    bool instantiated;
-    bool answer;
-  };
-
-  VARLIST list[VARSIZE] = {
-    {"gender", false, false},
-    {"chestPain", false, false},
-    {"backPain", false, false},
-    {"abPain", false, false},
-    {"sidePain", false, false},
-    {"testiPain", false, false},
-    {"pelvicPain", false, false},
-    {"coughBlood", false, false},
-    {"urineBlood", false, false},
-    {"rectalBlood", false, false},
-    {"weightLoss", false, fasle}, 
-    
-  };
-
-  for(int i = 0; i < VARSIZE; i++){
-    cout << list[i].variableName << endl;
-  }
-
-
   std::list<Variable> VariableList; 
 
   Variable Gender; 
@@ -134,13 +104,9 @@ int main(){
   breastLump.setQuestion("Does the patient have a breast lump?"); 
   VariableList.push_back(breastLump); 
 
-  std::list<Variable>::iterator it; 
-  for (it = VariableList.begin(); it!= VariableList.end(); ++it) {
-    std::cout << it->getQuestion();
-}
-
-  // for(int i = 0; i < 15; i++){
-  //   cout << VariableList[i] << endl;
+  // std::list<Variable>::iterator it; 
+  // for (it = VariableList.begin(); it!= VariableList.end(); ++it) {
+  //   std::cout << it->getQuestion();
   // }
 
   return 0;
