@@ -8,6 +8,7 @@ using namespace std;
 class Conclusion{
 public:
   void setRuleList(std::vector<int> list);
+  void setRuleAnswers(std::vector<bool> list); 
   void setRuleNum(int n); //set rule number
   int getRuleNum();       //get rule number
   void setConclusion(string c); //set conclusion
@@ -17,6 +18,7 @@ public:
 
 private:
   std::vector<int> ruleList; // list of ints corresponding to our VariableList
+  std::vector<bool> ruleAnswers;
   int ruleNum;
   string conclusion;
   string cancer;

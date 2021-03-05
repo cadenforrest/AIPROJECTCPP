@@ -25,6 +25,12 @@ void Conclusion::setRuleList(std::vector<int> list){
   }
 }
 
+void Conclusion::setRuleAnswers(std::vector<bool> list){
+  for (int i = 0; i < list.size(); i++){ 
+    this->ruleAnswers.push_back(list[i]); 
+  }
+}
+
 
 
 // void Conclusion::setknowledgeBase(string c){

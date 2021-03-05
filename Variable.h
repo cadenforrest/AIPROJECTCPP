@@ -4,9 +4,6 @@
 class Variable{
 
   public:
-    Variable(); 
-    ~Variable(); 
-
     void setQuestion(std::string questionsstring); //sets question = question string
     std::string getQuestion(); // returns question
     void Instantiate(bool userAnswer); //sets isInstantiated to true and answer to userAnswer
