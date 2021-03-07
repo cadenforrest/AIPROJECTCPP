@@ -16,11 +16,13 @@ ls
 
 You should see the following files listed in your terminal: 
 
+```bash
 Conclusion-c_w424.cpp
 Conclusion-c_w424.h
 Variable-c_w424.cpp
 Variable-c_w424.h
 main-c_w424.cpp
+```
 
 ## COMPILING
 
@@ -58,9 +60,11 @@ ls
 
 You should now see three additional files: 
 
+```bash
 Conclusion-c_w424.o
 Variable-c_w424.o
 main-c_w424.o
+```
 
 Finally, compile and link the programs into an executable.
 
