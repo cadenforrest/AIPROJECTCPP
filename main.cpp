@@ -26,10 +26,154 @@ Variable List
 
 int Diagnosis(std::vector<Conclusion> ConclusionList, std::vector<Variable> VariableList);
 void Treatment(std::vector<Conclusion> ConclusionList, std::vector<Variable> VariableList, int index);
+std::vector<Variable> makeVariableList(); 
+std::vector<Conclusion> makeKnowledgeBase(); 
+void printVariableList(std::vector<Variable> VariableList); 
+void printKnowledgeBase(std::vector<Conclusion> ConclusionList, std::vector<Variable> VariableList); 
 
 
 int main(){
-  //make variable list
+
+  std::vector<Variable> VariableList = makeVariableList(); 
+  std::vector<Conclusion> ConclusionList = makeKnowledgeBase(); 
+  
+  printVariableList(VariableList); 
+  printKnowledgeBase(ConclusionList, VariableList); 
+
+  std::cout << std::endl << std::endl; 
+
+  int diagnosisIndex = Diagnosis(ConclusionList, VariableList); 
+  std::cout << std::endl << std::endl;
+
+  Treatment(ConclusionList, VariableList, diagnosisIndex); 
+  std::cout << std::endl << std::endl; 
+
+  std::cout << "Goodbye :-) " << std::endl; 
+
+  return 0;
+}
+
+
+
+int Diagnosis(std::vector<Conclusion> ConclusionList, std::vector<Variable> VariableList){ 
+
+  std::cout << "---------------------DIAGNOSIS---------------------" << std::endl << std::endl;
+
+  string diagnosis;
+  bool end = false; 
+  std::string useranswer;
+  bool userbool; 
+
+  //loop through entire conclusion list
+  for (int i = 0; i < ConclusionList.size(); i++)
+  { 
+    //loop through rule list within conclusion i
+    for (int j = 0; j < ConclusionList[i].getRuleList().size(); j++)
+    {
+      //if variable isn't instantiated, ask question and instantiate
+      if (!VariableList[ConclusionList[i].getRuleList()[j] - 1].getInstantiated()){
+        //ask question
+        std::cout << VariableList[ConclusionList[i].getRuleList()[j] - 1].getQuestion() << ": "; 
+        //cin answer
+        std::cin >> useranswer;
+        //validate
+        while (useranswer != "YES" && useranswer !="yes" && useranswer !="NO" && useranswer !="no"){ 
+          std::cout << "Answer invalid - please answer 'YES' or 'NO'" << std::endl << std::endl; 
+          //re-print question
+          std::cout << VariableList[ConclusionList[i].getRuleList()[j] - 1].getQuestion() << ": "; 
+          //cin answer
+          std::cin >> useranswer;
+        }
+        //convert to boolean
+        if (useranswer == "YES" || useranswer == "yes"){
+          userbool = true; 
+        }
+        else if (useranswer == "NO" || useranswer == "no"){
+          userbool = false;
+        }
+
+        //instantiate variable and store answer
+        VariableList[ConclusionList[i].getRuleList()[j] - 1].Instantiate(userbool);
+        
+        //check if corresponding answer in conclusion list matches. if match, continue 
+        if (VariableList[ConclusionList[i].getRuleList()[j]-1].getAnswer() == ConclusionList[i].getRuleAnswers()[j]){
+          int matchcount = 0; 
+          //if we're at the end of the list of relevant variables and everything matches, print diagnosis and end program
+
+          //sum number of matching answers
+          for (int a = 0; a < ConclusionList[i].getRuleList().size(); a++){
+            if (VariableList[ConclusionList[i].getRuleList()[a]-1].getAnswer() == ConclusionList[i].getRuleAnswers()[a]){
+              matchcount++; 
+            }
+          }
+
+          //if matching answers meets the required amount, print diagnosis and terminate the program
+          if (matchcount == ConclusionList[i].getRuleList().size()){
+            std::cout << "Diagnosis reached. Patient has " << ConclusionList[i].getConclusion() << std::endl;
+            // return diagnosis index back to main from function
+            return i; 
+          }
+          continue; 
+        }
+
+        else{
+          break;
+        }
+      }
+
+      //if variable is instantiated, check if corresponding answer in conclusion list matches. if match, continue to next question
+      else{
+        //check if corresponding answer in conclusion list matches
+        if (VariableList[ConclusionList[i].getRuleList()[j]-1].getAnswer() == ConclusionList[i].getRuleAnswers()[j]){
+          //if we're at the end of the variable list and everything matches, print the conclusion and end the program
+          int matchcount = 0; 
+          for (int a = 0; a < ConclusionList[i].getRuleList().size(); a++){
+            if (VariableList[ConclusionList[i].getRuleList()[a]-1].getAnswer() == ConclusionList[i].getRuleAnswers()[a]){
+              matchcount++; 
+            }
+          }
+
+          //if matching answers meets the required amount, print diagnosis and terminate the program
+          if (matchcount == ConclusionList[i].getRuleList().size()){
+            std::cout << "Diagnosis reached. Patient has " << ConclusionList[i].getConclusion() << std::endl; 
+
+            // return diagnosis index back to main from function
+            return i; 
+          }
+          continue; 
+        }
+        //if it doesnt match, go to the next rule
+        else{
+          break;
+        }
+      }
+    }
+  }
+
+  std::cout << "uh oh, something went wrong. " << std::endl;
+  return 0; 
+}
+
+void Treatment(std::vector<Conclusion> ConclusionList, std::vector<Variable> VariableList, int index){
+
+  std::cout << "---------------------TREATMENT---------------------" << std::endl << std::endl;
+
+  std::cout << "Recommended cancer treatment: " << ConclusionList[index].getTreatment() << std::endl << std::endl; 
+
+  std::cout << "Recomended symptom-specific treatment: " << std::endl << std::endl; 
+
+  int count = 1;
+  for (int i = 1; i < ConclusionList[index].getRuleList().size(); i++){
+    if (ConclusionList[index].getRuleAnswers()[i]){
+      std::cout << count << ")  " << VariableList[ConclusionList[index].getRuleList()[i] - 1].getTreatment() << std::endl;  
+      count++; 
+    }
+  }
+
+}
+
+std::vector<Variable> makeVariableList(){
+
   std::vector<Variable> VariableList; 
 
   Variable Gender; 
@@ -107,20 +251,12 @@ int main(){
   breastLump.setQuestion("Does the patient have a breast lump?"); 
   VariableList.push_back(breastLump); 
   breastLump.setTreatment("No treatment necessary unless cancerous");
-  
-  //print variablelist
-  std::cout << "---------------------VARIABLE LIST---------------------" << std::endl << std::endl;
-  int i = 1; 
-  std::vector<Variable>::iterator it; 
-  for (it = VariableList.begin(); it!= VariableList.end(); ++it) {
-    std::cout << i << ". " << it->getQuestion();
-    std::cout << std::endl; 
-    i++; 
-  }
-  std::cout << std::endl << std::endl; 
 
-  ////////////////////////////////////////////////
-  
+  return VariableList;
+}
+
+std::vector<Conclusion> makeKnowledgeBase(){ 
+
   std::vector<Conclusion> ConclusionList;
 
   Conclusion breastCancer; 
@@ -419,7 +555,25 @@ int main(){
   noCancer7.setRuleAnswers({false, false, false, false, false});
   ConclusionList.push_back(noCancer7);
 
-  //PRINT CONCLUSION LIST
+  return ConclusionList; 
+}
+
+void printVariableList(std::vector<Variable> VariableList){
+  //print variablelist
+  std::cout << "---------------------VARIABLE LIST---------------------" << std::endl << std::endl;
+  int i = 1; 
+  std::vector<Variable>::iterator it; 
+  for (it = VariableList.begin(); it!= VariableList.end(); ++it) {
+    std::cout << i << ". " << it->getQuestion();
+    std::cout << std::endl; 
+    i++; 
+  }
+  std::cout << std::endl << std::endl; 
+}
+
+
+void printKnowledgeBase(std::vector<Conclusion> ConclusionList, std::vector<Variable> VariableList){
+
   std::cout << "---------------------CONCLUSION LIST---------------------" << std::endl << std::endl;
 
   for (int i = 0; i < ConclusionList.size(); i++) {
@@ -434,137 +588,4 @@ int main(){
   
   }
 
-  std::cout << std::endl << std::endl; 
-
-  int diagnosisIndex = Diagnosis(ConclusionList, VariableList); 
-  std::cout << std::endl << std::endl;
-
-  Treatment(ConclusionList, VariableList, diagnosisIndex); 
-  std::cout << std::endl << std::endl; 
-
-  std::cout << "Goodbye :-) " << std::endl; 
-
-  return 0;
 }
-
-
-
-int Diagnosis(std::vector<Conclusion> ConclusionList, std::vector<Variable> VariableList){ 
-
-  std::cout << "---------------------DIAGNOSIS---------------------" << std::endl << std::endl;
-
-  string diagnosis;
-  bool end = false; 
-  std::string useranswer;
-  bool userbool; 
-
-  //loop through entire conclusion list
-  for (int i = 0; i < ConclusionList.size(); i++)
-  { 
-    //loop through rule list within conclusion i
-    for (int j = 0; j < ConclusionList[i].getRuleList().size(); j++)
-    {
-      //if variable isn't instantiated, ask question and instantiate
-      if (!VariableList[ConclusionList[i].getRuleList()[j] - 1].getInstantiated()){
-        //ask question
-        std::cout << VariableList[ConclusionList[i].getRuleList()[j] - 1].getQuestion() << ": "; 
-        //cin answer
-        std::cin >> useranswer;
-        //validate
-        while (useranswer != "YES" && useranswer !="yes" && useranswer !="NO" && useranswer !="no"){ 
-          std::cout << "Answer invalid - please answer 'YES' or 'NO'" << std::endl << std::endl; 
-          //re-print question
-          std::cout << VariableList[ConclusionList[i].getRuleList()[j] - 1].getQuestion() << ": "; 
-          //cin answer
-          std::cin >> useranswer;
-        }
-        //convert to boolean
-        if (useranswer == "YES" || useranswer == "yes"){
-          userbool = true; 
-        }
-        else if (useranswer == "NO" || useranswer == "no"){
-          userbool = false;
-        }
-
-        //instantiate variable and store answer
-        VariableList[ConclusionList[i].getRuleList()[j] - 1].Instantiate(userbool);
-        
-        //check if corresponding answer in conclusion list matches. if match, continue 
-        if (VariableList[ConclusionList[i].getRuleList()[j]-1].getAnswer() == ConclusionList[i].getRuleAnswers()[j]){
-          int matchcount = 0; 
-          //if we're at the end of the list of relevant variables and everything matches, print diagnosis and end program
-
-          //sum number of matching answers
-          for (int a = 0; a < ConclusionList[i].getRuleList().size(); a++){
-            if (VariableList[ConclusionList[i].getRuleList()[a]-1].getAnswer() == ConclusionList[i].getRuleAnswers()[a]){
-              matchcount++; 
-            }
-          }
-
-          //if matching answers meets the required amount, print diagnosis and terminate the program
-          if (matchcount == ConclusionList[i].getRuleList().size()){
-            std::cout << "Diagnosis reached. Patient has " << ConclusionList[i].getConclusion() << std::endl;
-            std::cout << "Rule no: " << ConclusionList[i].getRuleNum() << std::endl; 
-            // return diagnosis index back to main from function
-            return i; 
-          }
-          continue; 
-        }
-
-        else{
-          break;
-        }
-      }
-
-      //if variable is instantiated, check if corresponding answer in conclusion list matches. if match, continue to next question
-      else{
-        //check if corresponding answer in conclusion list matches
-        if (VariableList[ConclusionList[i].getRuleList()[j]-1].getAnswer() == ConclusionList[i].getRuleAnswers()[j]){
-          //if we're at the end of the variable list and everything matches, print the conclusion and end the program
-          int matchcount = 0; 
-          for (int a = 0; a < ConclusionList[i].getRuleList().size(); a++){
-            if (VariableList[ConclusionList[i].getRuleList()[a]-1].getAnswer() == ConclusionList[i].getRuleAnswers()[a]){
-              matchcount++; 
-            }
-          }
-
-          //if matching answers meets the required amount, print diagnosis and terminate the program
-          if (matchcount == ConclusionList[i].getRuleList().size()){
-            std::cout << "Diagnosis reached. Patient has " << ConclusionList[i].getConclusion() << std::endl; 
-            std::cout << "Rule no: " << ConclusionList[i].getRuleNum() << std::endl; 
-
-            // return diagnosis index back to main from function
-            return i; 
-          }
-          continue; 
-        }
-        //if it doesnt match, go to the next rule
-        else{
-          break;
-        }
-      }
-    }
-  }
-
-  std::cout << "uh oh, something went wrong. " << std::endl;
-  return 0; 
-}
-
-void Treatment(std::vector<Conclusion> ConclusionList, std::vector<Variable> VariableList, int index){
-
-  std::cout << "---------------------TREATMENT---------------------" << std::endl << std::endl;
-
-  std::cout << "Recommended cancer treatment: " << ConclusionList[index].getTreatment() << std::endl; 
-
-  std::cout << "Recomended symptom-specific treatment: " << std::endl; 
-
-
-  for (int i = 1; i < ConclusionList[index].getRuleList().size(); i++){
-    if (ConclusionList[index].getRuleAnswers()[i]){
-      std::cout << VariableList[ConclusionList[index].getRuleList()[i] - 1].getTreatment() << std::endl;  
-    }
-  }
-
-}
-
-
