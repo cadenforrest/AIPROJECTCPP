@@ -8,13 +8,17 @@ class Variable{
     std::string getQuestion(); // returns question
     void Instantiate(bool userAnswer); //sets isInstantiated to true and answer to userAnswer
     bool getInstantiated(); //returns isInstantiated
+    bool getAnswer(); //returns answer
     void setVariableName(std::string namestring);
+    void setTreatment(std::string treatment1);
+    std::string getTreatment(); 
 
   private: 
     std::string variablename; 
     bool isInstantiated = false; 
     bool answer = false; 
     std::string question;
+    std::string treatment; 
 };
 
 #endif /* VARIABLE_H */

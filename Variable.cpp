@@ -16,10 +16,27 @@ bool Variable::getInstantiated(){
 
 void Variable::Instantiate(bool userAnswer){
   this->isInstantiated = true; 
-  this->answer = userAnswer; 
+  if (userAnswer == true){ 
+    this->answer = true; 
+  }
+  else{
+    this->answer = false;
+  }
 }
 
 void Variable::setVariableName(std::string namestring){
   this->variablename = namestring; 
 
+}
+
+bool Variable::getAnswer(){
+  return this->answer;
+}
+
+void Variable::setTreatment(std::string treatment1){ 
+  this->treatment = treatment1; 
+}
+
+std::string Variable::getTreatment(){
+  return this->treatment; 
 }

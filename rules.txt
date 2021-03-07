@@ -49,7 +49,7 @@
     AND PAIN IN CHEST = NO 
     AND PAIN IN LOWER BACK = YES
     AND BLOOD IN URINE = YES 
-    AND FREQUENT URINATINO = NO
+    AND FREQUENT URINATION = NO
     AND UNEXPECTED WEIGHT LOSS = NO
     THEN CANCER = BLADDER CANCER
 
@@ -249,3 +249,66 @@
 360: IF PATIENT IS FEMALE = NO
     AND PAIN IN TESTICLE = YES
     THEN CANCER = TESTICULAR CANCER
+
+
+
+Treatment Rules
+
+Variables:
+Cancer
+Size
+Treatment
+
+10: IF Cancer = Breast Cancer 
+    AND Size = small THEN Treatment = Surgery
+
+20: IF Cancer = Breast Cancer 
+    AND Size = large THEN Treatment = Chemotherapy
+    
+30: IF Cancer = Prostate Cancer 
+    AND Size = small THEN Treatment = Chemotherapy
+
+40: IF Cancer = Prostate Cancer 
+    AND Size = large THEN Treatment = Chemotherapy
+
+50: IF Cancer = Lung Cancer
+    AND Size = small THEN Treatment = Chemotherapy
+
+60: IF Cancer = Lung Cancer
+    AND Size = large THEN Treatment = Chemotherapy
+
+70: IF Cancer = Kidney Cancer
+    AND Size = small THEN Treatment = Surgery 
+
+80: IF Cancer = Kidney Cancer
+    AND Size = large THEN Treatment = Chemotherapy
+
+90: IF Cancer = Colorectal Cancer
+    AND Size = small THEN Treatment = Surgery
+
+100: IF Cancer = Colorectal Cancer
+    AND Size = large THEN Treatment = Chemotherapy
+
+110: IF Cancer = Heart Cancer
+    AND Size = small THEN Treatment = Chemotherapy
+
+120: IF Cancer = Heart Cancer
+    AND Size = large THEN Treatment = Chemotherapy
+
+130: IF Cancer = Bladder Cancer 
+    AND Size = small THEN Treatment = Chemotherapy
+
+140: IF Cancer = Bladder Cancer 
+    AND Size = large THEN Treatment = Surgery
+
+150: IF Cancer = Testicular Cancer
+    AND Size = small THEN Treatment = Surgery 
+
+160: IF Cancer = Testicular Cancer
+    AND Size = large THEN Treatment = Surgery 
+
+170: IF Cancer = Endometrial Cancer
+    AND Size = small THEN TREATMENT = Surgery
+  
+180: IF Cancer = Endometrial Cancer
+    AND Size = large THEN TREATMENT = Surgery

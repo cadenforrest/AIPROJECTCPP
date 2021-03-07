@@ -13,16 +13,24 @@ int Conclusion::getRuleNum(){
 
 void Conclusion::setConclusion(string c){
   this->conclusion = c;
-}//set conclusion result
+}//set conclusion to c 
 
 string Conclusion::getConclusion(){
   return this->conclusion;
-}//get conclusion result
+}//get conclusion string
 
 void Conclusion::setRuleList(std::vector<int> list){
   for (int i = 0; i < list.size(); i++){
     this->ruleList.push_back(list[i]);
   }
+}
+
+std::vector<int> Conclusion::getRuleList(){
+  return this->ruleList; 
+}
+
+std::vector<bool> Conclusion::getRuleAnswers(){ 
+  return this->ruleAnswers;
 }
 
 void Conclusion::setRuleAnswers(std::vector<bool> list){
@@ -31,12 +39,10 @@ void Conclusion::setRuleAnswers(std::vector<bool> list){
   }
 }
 
+void Conclusion::setTreatment(std::string usertreatment){
+  this->treatment = usertreatment;
+}
 
-
-// void Conclusion::setknowledgeBase(string c){
-//   this->cancer = c;
-// }
-
-// string Conclusion::getknowlegeBase(){
-//   return this->cancer;
-// }
+std::string Conclusion::getTreatment(){
+  return this->treatment; 
+}
