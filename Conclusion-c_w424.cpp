@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
-#include "Conclusion.h"
-#include "Variable.h"
+#include "Conclusion-c_w424.h"
+#include "Variable-c_w424.h"
 using namespace std;
 
 void Conclusion::setRuleNum(int n){

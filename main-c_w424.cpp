@@ -1,28 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "Variable.h"
-#include "Conclusion.h"
+#include "Variable-c_w424.h"
+#include "Conclusion-c_w424.h"
 using namespace std;
 
-/*
-Variable List
-1. Gender
-2. chestPain
-3. backPain
-4. abPain
-5. sidePain
-6. breastPain
-7. pelvicPain
-8. testiPain
-9. coughBlood
-10. urineBlood
-11. rectalBlood
-12. weightLoss
-13. erectDys
-14. freqUrine
-15. breastLump
-*/
+
 
 int Diagnosis(std::vector<Conclusion> ConclusionList, std::vector<Variable> VariableList);
 void Treatment(std::vector<Conclusion> ConclusionList, std::vector<Variable> VariableList, int index);
@@ -48,7 +31,7 @@ int main(){
   Treatment(ConclusionList, VariableList, diagnosisIndex); 
   std::cout << std::endl << std::endl; 
 
-  std::cout << "Goodbye :-) " << std::endl; 
+  std::cout << "Goodbye!" << std::endl; 
 
   return 0;
 }
@@ -160,7 +143,7 @@ void Treatment(std::vector<Conclusion> ConclusionList, std::vector<Variable> Var
 
   std::cout << "Recommended cancer treatment: " << ConclusionList[index].getTreatment() << std::endl << std::endl; 
 
-  std::cout << "Recomended symptom-specific treatment: " << std::endl << std::endl; 
+  std::cout << "Suggested symptom-specific treatment: " << std::endl << std::endl; 
 
   int count = 1;
   for (int i = 1; i < ConclusionList[index].getRuleList().size(); i++){
@@ -169,8 +152,40 @@ void Treatment(std::vector<Conclusion> ConclusionList, std::vector<Variable> Var
       count++; 
     }
   }
+}
+
+void printVariableList(std::vector<Variable> VariableList){
+  //print variablelist
+  std::cout << "---------------------VARIABLE LIST---------------------" << std::endl << std::endl;
+  int i = 1; 
+  std::vector<Variable>::iterator it; 
+  for (it = VariableList.begin(); it!= VariableList.end(); ++it) {
+    std::cout << i << ". " << it->getQuestion();
+    std::cout << std::endl; 
+    i++; 
+  }
+  std::cout << std::endl << std::endl; 
+}
+
+
+void printKnowledgeBase(std::vector<Conclusion> ConclusionList, std::vector<Variable> VariableList){
+
+  std::cout << "---------------------CONCLUSION LIST---------------------" << std::endl << std::endl;
+
+  for (int i = 0; i < ConclusionList.size(); i++) {
+    std::cout << i+1 << ". " << ConclusionList[i].getConclusion() << std::endl; 
+
+    for (int j = 0; j < ConclusionList[i].getRuleList().size(); j++){ 
+      std::cout << "  " << VariableList[ConclusionList[i].getRuleList()[j] - 1].getQuestion() << " = " 
+      << ConclusionList[i].getRuleAnswers()[j] 
+      << std::endl; 
+    }
+    std::cout << std::endl;
+  
+  }
 
 }
+
 
 std::vector<Variable> makeVariableList(){
 
@@ -223,17 +238,17 @@ std::vector<Variable> makeVariableList(){
 
   Variable urineBlood; 
   urineBlood.setQuestion("Is the patient urinating blood?"); 
-  urineBlood.setTreatment("Prescribe antibotics for urinating blood");
+  urineBlood.setTreatment("Prescribe antibotics to treat potential UTI's");
   VariableList.push_back(urineBlood);
 
   Variable rectalBlood; 
   rectalBlood.setQuestion("Is the patient experiencing rectile bleeding?"); 
-  rectalBlood.setTreatment("Prescribe ointment or  resolving constipation issue");
+  rectalBlood.setTreatment("Prescribe ointment or oral medication to resolve any constipation issues");
   VariableList.push_back(rectalBlood); 
 
   Variable weightLoss; 
   weightLoss.setQuestion("Is the patient experiencing unexpected weight loss?"); 
-  weightLoss.setTreatment("Suggest a change in diet");
+  weightLoss.setTreatment("Suggest a change in diet to address weight loss");
   VariableList.push_back(weightLoss);
   
 
@@ -250,7 +265,7 @@ std::vector<Variable> makeVariableList(){
   Variable breastLump; 
   breastLump.setQuestion("Does the patient have a breast lump?"); 
   VariableList.push_back(breastLump); 
-  breastLump.setTreatment("No treatment necessary unless cancerous");
+  breastLump.setTreatment("Obtain X-ray of breast lump every 6 months");
 
   return VariableList;
 }
@@ -556,36 +571,4 @@ std::vector<Conclusion> makeKnowledgeBase(){
   ConclusionList.push_back(noCancer7);
 
   return ConclusionList; 
-}
-
-void printVariableList(std::vector<Variable> VariableList){
-  //print variablelist
-  std::cout << "---------------------VARIABLE LIST---------------------" << std::endl << std::endl;
-  int i = 1; 
-  std::vector<Variable>::iterator it; 
-  for (it = VariableList.begin(); it!= VariableList.end(); ++it) {
-    std::cout << i << ". " << it->getQuestion();
-    std::cout << std::endl; 
-    i++; 
-  }
-  std::cout << std::endl << std::endl; 
-}
-
-
-void printKnowledgeBase(std::vector<Conclusion> ConclusionList, std::vector<Variable> VariableList){
-
-  std::cout << "---------------------CONCLUSION LIST---------------------" << std::endl << std::endl;
-
-  for (int i = 0; i < ConclusionList.size(); i++) {
-    std::cout << i+1 << ". " << ConclusionList[i].getConclusion() << std::endl; 
-
-    for (int j = 0; j < ConclusionList[i].getRuleList().size(); j++){ 
-      std::cout << "  " << VariableList[ConclusionList[i].getRuleList()[j] - 1].getQuestion() << " = " 
-      << ConclusionList[i].getRuleAnswers()[j] 
-      << std::endl; 
-    }
-    std::cout << std::endl;
-  
-  }
-
 }

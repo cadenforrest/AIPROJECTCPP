@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Variable.h"
+#include "Variable-c_w424.h"
 
 
 void Variable::setQuestion(std::string questionsstring){

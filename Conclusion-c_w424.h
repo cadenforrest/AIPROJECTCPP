@@ -1,6 +1,6 @@
 #ifndef CONCLUSION_H
 #define CONCLUSION_H
-#include "Variable.h"
+#include "Variable-c_w424.h"
 #include <vector>
 using namespace std;
 
