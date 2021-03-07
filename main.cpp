@@ -160,7 +160,7 @@ int main(){
   breastCancer1.setConclusion("breast cancer"); 
   breastCancer1.setTreatment("Surgery to remove tumor from breast");
   breastCancer1.setRuleList({1, 2, 12, 15}); 
-  breastCancer1.setRuleAnswers({true, true, true, true});
+  breastCancer1.setRuleAnswers({true, true, false, true});
   ConclusionList.push_back(breastCancer1); 
 
   Conclusion noCancer; 
@@ -218,6 +218,14 @@ int main(){
   bladderCancer2.setRuleList({1, 2, 3, 12, 10}); 
   bladderCancer2.setRuleAnswers({true, false, false, false, true}); 
   ConclusionList.push_back(bladderCancer2); 
+
+  Conclusion noCancer8;
+  noCancer8.setRuleNum(125); 
+  noCancer8.setConclusion("no cancer");
+  noCancer8.setTreatment("No treatment necessary."); 
+  noCancer8.setRuleList({1, 2, 3, 10});
+  noCancer8.setRuleAnswers({true, false, true, false}); 
+  ConclusionList.push_back(noCancer8); 
 
   Conclusion noCancer1; 
   noCancer1.setRuleNum(130); 
@@ -331,6 +339,14 @@ int main(){
   colorCancer1.setRuleAnswers({false, false, false, true, true, true}); 
   ConclusionList.push_back(colorCancer1); 
 
+  Conclusion colorCancer3; 
+  colorCancer3.setRuleNum(265); 
+  colorCancer3.setConclusion("colorectal cancer"); 
+  colorCancer3.setTreatment("Surgery to remove tumor within colon");
+  colorCancer3.setRuleList({1, 3, 2, 4, 5, 10, 12, 11}); 
+  colorCancer3.setRuleAnswers({false, false, false, false, true, true, true, true}); 
+  ConclusionList.push_back(colorCancer3); 
+
   Conclusion kidneyCancer3; 
   kidneyCancer3.setRuleNum(270); 
   kidneyCancer3.setConclusion("kidney cancer"); 
@@ -338,6 +354,14 @@ int main(){
   kidneyCancer3.setRuleList({1, 3, 2, 4, 12, 11}); 
   kidneyCancer3.setRuleAnswers({false, false, false, true, true, false}); 
   ConclusionList.push_back(kidneyCancer3); 
+
+  Conclusion kidneyCancer4; 
+  kidneyCancer4.setRuleNum(275); 
+  kidneyCancer4.setConclusion("kidney cancer"); 
+  kidneyCancer4.setTreatment("Surgery to remove tumor from kidney");
+  kidneyCancer4.setRuleList({1, 3, 2, 4, 5, 10, 12, 11}); 
+  kidneyCancer4.setRuleAnswers({false, false, false, false, true, true, true, false}); 
+  ConclusionList.push_back(kidneyCancer4); 
 
   Conclusion proCancer1; 
   proCancer1.setRuleNum(280); 
@@ -418,6 +442,8 @@ int main(){
   Treatment(ConclusionList, VariableList, diagnosisIndex); 
   std::cout << std::endl << std::endl; 
 
+  std::cout << "Goodbye :-) " << std::endl; 
+
   return 0;
 }
 
@@ -465,7 +491,6 @@ int Diagnosis(std::vector<Conclusion> ConclusionList, std::vector<Variable> Vari
         
         //check if corresponding answer in conclusion list matches. if match, continue 
         if (VariableList[ConclusionList[i].getRuleList()[j]-1].getAnswer() == ConclusionList[i].getRuleAnswers()[j]){
-          std::cout << "match!" << std::endl; 
           int matchcount = 0; 
           //if we're at the end of the list of relevant variables and everything matches, print diagnosis and end program
 
@@ -479,7 +504,7 @@ int Diagnosis(std::vector<Conclusion> ConclusionList, std::vector<Variable> Vari
           //if matching answers meets the required amount, print diagnosis and terminate the program
           if (matchcount == ConclusionList[i].getRuleList().size()){
             std::cout << "Diagnosis reached. Patient has " << ConclusionList[i].getConclusion() << std::endl;
-
+            std::cout << "Rule no: " << ConclusionList[i].getRuleNum() << std::endl; 
             // return diagnosis index back to main from function
             return i; 
           }
@@ -506,6 +531,7 @@ int Diagnosis(std::vector<Conclusion> ConclusionList, std::vector<Variable> Vari
           //if matching answers meets the required amount, print diagnosis and terminate the program
           if (matchcount == ConclusionList[i].getRuleList().size()){
             std::cout << "Diagnosis reached. Patient has " << ConclusionList[i].getConclusion() << std::endl; 
+            std::cout << "Rule no: " << ConclusionList[i].getRuleNum() << std::endl; 
 
             // return diagnosis index back to main from function
             return i; 
@@ -520,7 +546,7 @@ int Diagnosis(std::vector<Conclusion> ConclusionList, std::vector<Variable> Vari
     }
   }
 
-  std::cout << "uh oh, something went wrong. exiting..." << std::endl;
+  std::cout << "uh oh, something went wrong. " << std::endl;
   return 0; 
 }
 
